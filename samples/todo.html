@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>TODO App</title>
+
+  <script type="module" defer>
+    import {app, createEnv} from "./lib.js";
+
+    const env = createEnv({
+      todo: {
+        "白菜": false,
+        "醤油": false,
+        "砂糖": false
+      }
+    });
+
+    app("#todo", env);
+
+    document.querySelector("button").addEventListener("click", () => {
+      const input = document.querySelector(".name");
+
+      env.todo[input.value] = false;
+      env.todo = {...env.todo};
+      input.value = "";
+    });
+
+    document.body.addEventListener("click", ({target}) => {
+      if(target.classList.contains("done")){
+        env.todo[target.nextSibling.textContent] = true;
+        env.todo = {...env.todo};
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <section>
+    <h1>TODO App</h1>
+
+    <div id="todo">
+      <template>
+        <ul>
+          {#each todo as isDone, title}
+          {#if isDone}
+          <li style="color:#aaa">{title}</li>
+          {:else}
+          <li><label><input type="checkbox" class="done" value="{}"> <span>{title}</span></label></li>
+          {/if}
+          {/each}
+        </ul>
+      </template>
+    </div>
+
+    <input type="text" class="name">
+    <button type="button">add</button>
+  </section>
+</body>
+</html>
