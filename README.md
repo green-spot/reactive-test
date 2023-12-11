@@ -46,6 +46,10 @@ document.querySelector("button").addEventListener("click", () => env.i = 0);
 <button type="button">Reset</button>
 ```
 
+### サンプル
+- https://in-green-spot.com/reactive-test/samples/timer.html
+- https://in-green-spot.com/reactive-test/samples/todo.html
+
 
 ## Syntax
 
