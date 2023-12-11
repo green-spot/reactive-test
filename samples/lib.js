@@ -285,7 +285,7 @@ export const app = (selector, env, callback) => {
   const f = () => {
     app.innerHTML = "";
     update(app, ast, env);
-    callback();
+    if(callback) callback();
   };
 
   env.updaters.push(f);
