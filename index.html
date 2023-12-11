@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Reactive App</title>
+
+  <script type="module" defer>
+    import {app, createEnv} from "./lib.js";
+
+    // Timer App
+    (() => {
+      const env = createEnv({i: 0})
+      let stopped = false;
+      app("#timer-app", env);
+
+      setInterval(() => {if(!stopped) env.i++;}, 1000);
+      document.querySelector("#timer .stop").addEventListener("click", () => stopped = true);
+      document.querySelector("#timer .reset").addEventListener("click", () => {stopped = false; env.i = 0;});
+    })();
+
+    // TODO App
+    (() => {
+      const env = createEnv({
+        todo: {
+          "白菜": false,
+          "醤油": false,
+          "砂糖": false
+        }
+      });
+
+      app("#todo-app", env);
+
+      document.querySelector("#todo button").addEventListener("click", () => {
+        const input = document.querySelector("#todo .name");
+
+        env.todo[input.value] = false;
+        env.todo = {...env.todo};
+        input.value = "";
+      });
+
+      document.getElementById("todo").addEventListener("click", ({target}) => {
+        if(target.classList.contains("done")){
+          env.todo[target.nextSibling.textContent] = true;
+          env.todo = {...env.todo};
+        }
+      });
+    })();
+  </script>
+</head>
+
+<body>
+  <div>
+    <section id="timer">
+      <h1>Timer App</h1>
+      <div id="timer-app">
+        <template>
+          <p>{i}</p>
+        </template>
+      </div>
+      <button type="button" class="stop">Stop</button>
+      <button type="button" class="reset">Reset</button>
+    </section>
+
+    <section id="todo">
+      <h1>TODO App</h1>
+      <div id="todo-app">
+        <template>
+          <ul>
+            {#each todo as isDone, title}
+            {#if isDone}
+            <li style="color:#aaa">{title}</li>
+            {:else}
+            <li><label><input type="checkbox" class="done" value="{}"> <span>{title}</span></label></li>
+            {/if}
+            {/each}
+          </ul>
+        </template>
+      </div>
+      <input type="text" class="name">
+      <button type="button">add</button>
+    </section>
+  </div>
+</body>
+</html>
