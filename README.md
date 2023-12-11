@@ -4,11 +4,11 @@
 - Pure JavaScript
 - リアクティブライブラリ
 - Svelte風文法
-- **eval使用**
+- **内部でeval使用**
 
 ## 基本
 
-JavaScript上で`env.x`の値を操作すると、HTML上の`{x}`がReactiveに更新されます。
+JavaScript上で`env.x`の値を操作すると、HTML上の`{x}`がリアクティブに更新されます。
 
 ```javascript
 import {app, createEnv} from "./lib.js";
@@ -25,7 +25,7 @@ app("#app", env);
 </div>
 ```
 
-### タイマーアプリ
+### タイマーアプリの例
 
 ```javascript
 import {app, createEnv} from "./lib.js";
