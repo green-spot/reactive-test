@@ -273,7 +273,7 @@ export const createEnv = (o) => {
   return env;
 };
 
-export const app = (selector, env) => {
+export const app = (selector, env, callback) => {
   const app = document.querySelector(selector);
 
   const template = app.dataset.useTemplate ?
@@ -285,6 +285,7 @@ export const app = (selector, env) => {
   const f = () => {
     app.innerHTML = "";
     update(app, ast, env);
+    callback();
   };
 
   env.updaters.push(f);

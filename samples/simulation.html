@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Price Simulation App</title>
+
+  <script type="module" defer>
+    import {app, createEnv} from "./lib.js";
+
+    const env = createEnv({
+      plans: {
+        plan1: {
+          name: "Plan A",
+          price: 3000
+        },
+        plan2: {
+          name: "Plan B",
+          price: 5000
+        },
+        plan3: {
+          name: "Plan C",
+          price: 10000
+        }
+      },
+      options: {
+        a: {
+          name: "オプションA",
+          price: 500
+        },
+        b: {
+          name: "オプションB",
+          price: 800
+        }
+      },
+      selectedPlan: "plan1",
+      selectedOptions: [],
+      calc: () => {
+        return plans[selectedPlan].price + selectedOptions.reduce((a, b) => a + options[b].price, 0);
+      }
+    });
+
+    app("#sim", env, () => {
+      document.querySelectorAll("[name='plan']").forEach(o => {
+        o.addEventListener("change", () => {
+          env.selectedPlan = o.nextSibling.textContent;
+        })
+      });
+
+      const options = document.querySelectorAll("[name='options[]']")
+      options.forEach(o => {
+        o.addEventListener("change", () => {
+          const selectedOptions = [];
+          options.forEach(option => {
+            if(option.checked) selectedOptions.push(option.nextSibling.textContent);
+          })
+          env.selectedOptions = selectedOptions;
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <section>
+    <h1>Price Simulation App</h1>
+
+    <div id="sim">
+      <template>
+        <h2>Plans</h2>
+
+        <ul>
+          {#each plans as plan, id}
+          {#if id === selectedPlan}
+          <li><label><input type="radio" name="plan" checked> <span>{id}</span>: <span>{plan.name}</span> <span>({plan.price}円)</span></label></li>
+          {:else}
+          <li><label><input type="radio" name="plan"> <span>{id}</span>: <span>{plan.name}</span> <span>({plan.price}円)</span></label></li>
+          {/if}
+          {/each}
+        </ul>
+
+        <h2>Options</h2>
+
+        <ul>
+          {#each options as option, id}
+          {#if selectedOptions.includes(id)}
+          <li><label><input type="checkbox" name="options[]" checked> <span>{id}</span>: <span>{option.name}</span> <span>({option.price}円)</span></label></li>
+          {:else}
+          <li><label><input type="checkbox" name="options[]"> <span>{id}</span>: <span>{option.name}</span> <span>({option.price}円)</span></label></li>
+          {/if}
+          {/each}
+        </ul>
+
+        <div class="sum">
+          <p>合計金額: {calc()}</p>
+        </div>
+      </template>
+    </div>
+  </section>
+</body>
+</html>
