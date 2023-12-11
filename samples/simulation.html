@@ -71,9 +71,9 @@
         <ul>
           {#each plans as plan, id}
           {#if id === selectedPlan}
-          <li><label><input type="radio" name="plan" checked> <span>{id}</span>: <span>{plan.name}</span> <span>({plan.price}円)</span></label></li>
+          <li><label><input type="radio" name="plan" checked> <span style="display:none;">{id}</span><span>{plan.name}</span> <span>({plan.price}円)</span></label></li>
           {:else}
-          <li><label><input type="radio" name="plan"> <span>{id}</span>: <span>{plan.name}</span> <span>({plan.price}円)</span></label></li>
+          <li><label><input type="radio" name="plan"> <span style="display:none;">{id}</span><span>{plan.name}</span> <span>({plan.price}円)</span></label></li>
           {/if}
           {/each}
         </ul>
@@ -83,9 +83,9 @@
         <ul>
           {#each options as option, id}
           {#if selectedOptions.includes(id)}
-          <li><label><input type="checkbox" name="options[]" checked> <span>{id}</span>: <span>{option.name}</span> <span>({option.price}円)</span></label></li>
+          <li><label><input type="checkbox" name="options[]" checked> <span style="display:none;">{id}</span><span>{option.name}</span> <span>({option.price}円)</span></label></li>
           {:else}
-          <li><label><input type="checkbox" name="options[]"> <span>{id}</span>: <span>{option.name}</span> <span>({option.price}円)</span></label></li>
+          <li><label><input type="checkbox" name="options[]"> <span style="display:none;">{id}</span><span>{option.name}</span> <span>({option.price}円)</span></label></li>
           {/if}
           {/each}
         </ul>
