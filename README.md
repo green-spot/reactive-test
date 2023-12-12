@@ -119,3 +119,21 @@ app("#app", env);
   </template>
 </div>
 ```
+
+### Attribute binding
+
+```javascript
+const env = createEnv({
+  value: 1,
+  isChecked: false
+});
+app("#app", env);
+```
+
+```html
+<div id="app">
+  <template>
+    <input type="checkbox" value="{value}" checked="{isChecked}">
+  </template>
+</div>
+```

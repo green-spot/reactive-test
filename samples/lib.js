@@ -206,6 +206,33 @@ const update = (parent, ast, env) => {
 
       case "node":
         const child = node.tag.cloneNode();
+
+        for(let i=0; i<child.attributes.length; i++){
+          const attr = child.attributes[i];
+
+          if(attr.specified){
+            let matched;
+
+            if(matched = attr.value.match(/^\{(.+?)\}$/)){
+              const v = evaluate(matched[1], env);
+
+              switch(typeof v){
+                case "boolean":
+                  if(v){
+                    attr.value = "";
+                  }else{
+                    child.removeAttribute(attr.name);
+                    i--;
+                  }
+                  break;
+
+                default:
+                  attr.value = v;
+              }
+            }
+          }
+        }
+
         update(child, node.children, env);
         parent.appendChild(child);
         break;
