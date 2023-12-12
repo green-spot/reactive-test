@@ -46,14 +46,10 @@
         })
       });
 
-      const options = document.querySelectorAll("[name='options[]']")
-      options.forEach(o => {
+      document.querySelectorAll("[name='options[]']").forEach(o => {
         o.addEventListener("change", () => {
-          const selectedOptions = [];
-          options.forEach(option => {
-            if(option.checked) selectedOptions.push(option.value);
-          })
-          env.selectedOptions = selectedOptions;
+          const options = document.querySelectorAll("[name='options[]']:checked");
+          env.selectedOptions = Array.prototype.map.call(options, option => option.value);
         });
       });
     });
