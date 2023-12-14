@@ -39,20 +39,18 @@
       }
     });
 
-    app("#sim", env, () => {
-      document.querySelectorAll("[name='plan']").forEach(o => {
-        o.addEventListener("change", () => {
-          env.selectedPlan = o.value;
-        })
-      });
+    app("#sim", env)
 
-      document.querySelectorAll("[name='options[]']").forEach(o => {
-        o.addEventListener("change", () => {
-          const options = document.querySelectorAll("[name='options[]']:checked");
-          env.selectedOptions = Array.prototype.map.call(options, option => option.value);
-        });
-      });
-    });
+    document.addEventListener("change", e => {
+      if(e.target.matches("[name='plan']")){
+        env.selectedPlan = e.target.value;
+      }
+
+      if(e.target.matches("[name='options[]']")){
+        const options = document.querySelectorAll("[name='options[]']:checked");
+        env.selectedOptions = Array.prototype.map.call(options, option => option.value);
+      }
+    })
   </script>
 </head>
 
